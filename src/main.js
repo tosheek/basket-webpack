@@ -3,14 +3,17 @@ import Vue from 'vue'
 import basket_item from './basket_item.vue'
 
 
+Vue.component("basket_item", basket_item);
+
+
 var app = new Vue({
 	el: "#basket-app",
 	  data: {
 	      basket_items: []
 	  },
-	  components:{
-	    basket_item:basket_item
-	  },  
+	  // components:{
+	  //   basket_item:basket_item
+	  // },  
 	  mounted() {
 	    if (localStorage.getItem('basket_items')) {
 	      try {
