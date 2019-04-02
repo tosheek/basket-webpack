@@ -1,77 +1,56 @@
 <template>
-<transition name="fade">
-  <div id="basket_container">
-      <div class="products">
-        <div id="beer" class="box">
-            <img src="https://chenyiya.com/codepen/product-1.jpg"> 
-            <i class="fa fa-plus" v-on:click="addItem({img: 'https://chenyiya.com/codepen/product-1.jpg',title: 'Beer Bottle',price: '25',id: 'beer'})">+</i> 
-            <h2>Beer Bottle</h2> 
-            <p>25 р.</p>
-        </div>
-        <div id="beer2" class="box">
-            <img src="https://chenyiya.com/codepen/product-2.jpg"> 
-            <i class="fa fa-plus" v-on:click="addItem({img: 'https://chenyiya.com/codepen/product-2.jpg',title: 'Beer Bottle2',price: '125',id: 'beer2'})">+</i> 
-            <h2>Beer Bottle</h2> 
-            <p>25 р.</p>
-        </div>
-        <div id="beer3" class="box">
-            <img src="https://chenyiya.com/codepen/product-3.jpg"> 
-            <i class="fa fa-plus" v-on:click="addItem({img: 'https://chenyiya.com/codepen/product-3.jpg',title: 'Beer Bottle3',price: '325',id: 'beer3'})">+</i> 
-            <h2>Beer Bottle</h2> 
-            <p>25 р.</p>
-        </div>                
-      </div>  
-      <div class="basket" v-if="total.count">
-        <div class="basket__head">
-          <h3>Корзина</h3>
-          <div class="cart__head--price">Цена</div>
-          <div class="cart__head--quantity">Количество</div>
-          <div class="cart__head--total">Сумма</div>
-        </div>
-        
-        <basket_item v-for="basket_item in basket_items" v-bind:buy_data="basket_item"></basket_item>
-        <h5>Итого: {{total.sum}} р. {{ total.count }} шт</h5>
-      </div>
-      
-      //
-      
-          <div
-            class="cd-cart-container"
-            v-bind:class="total.count ? '' : 'empty'"
-            v-if="total.count > 0"
-          >
-            <a
-              href="#"
-              class="cd-cart-trigger"
-              @click.prevent="
-                $event.target.parentElement.classList.toggle('cart-open');
-              "
-            >
-              <ul class="count">
-                <li id="count-cart">{{ total.count }}</li>
-              </ul>
-            </a>
-            <div class="cd-cart">
-              <div class="wrapper">
-                <header>
-                  
-                </header>
-                <div class="body">
-                  <basket_item v-for="basket_item in basket_items" v-bind:buy_data="basket_item"></basket_item>
-                </div>
-                <footer>
-                  <a  href="/checkout" class="checkout btn">
-                    <em>Итого - <span>{{ total.sum }} ₽</span></em>
-                  </a>
-                </footer>
-              </div>
-            </div>
-          </div>
-      //
+  <div>
 
+    <div class="products">
+      <div id="beer" class="box">
+          <img src="https://chenyiya.com/codepen/product-1.jpg"> 
+          <i class="fa fa-plus" v-on:click="addItem({img: 'https://chenyiya.com/codepen/product-1.jpg',title: 'Beer Bottle',price: '25',id: 'beer'})">+</i> 
+          <h2>Beer Bottle</h2> 
+          <p>25 р.</p>
+      </div>
+      <div id="beer2" class="box">
+          <img src="https://chenyiya.com/codepen/product-2.jpg"> 
+          <i class="fa fa-plus" v-on:click="addItem({img: 'https://chenyiya.com/codepen/product-2.jpg',title: 'Beer Bottle2',price: '125',id: 'beer2'})">+</i> 
+          <h2>Beer Bottle</h2> 
+          <p>25 р.</p>
+      </div>
+      <div id="beer3" class="box">
+          <img src="https://chenyiya.com/codepen/product-3.jpg"> 
+          <i class="fa fa-plus" v-on:click="addItem({img: 'https://chenyiya.com/codepen/product-3.jpg',title: 'Beer Bottle3',price: '325',id: 'beer3'})">+</i> 
+          <h2>Beer Bottle</h2> 
+          <p>25 р.</p>
+      </div>                
     </div>
+
+    <div id="basket-container">
+        <div class="basket-block" v-if="total.count">
+          <basket_item v-for="basket_item in basket_items" v-bind:buy_data="basket_item"></basket_item>
+          <h4>Итого: {{total.sum}} р. {{ total.count }} шт</h4>
+        </div>
+    </div>
+
+    <div class="small-basket-container" v-if="total.count" v-bind:class="total.count ? '' : 'empty'">
+      <a href="#" class="small-basket-trigger" @click.prevent="$event.target.parentElement.classList.toggle('cart-open');">
+        <ul class="small-basket-count"><li>{{ total.count }}</li></ul>
+      </a>
+      <div class="small-basket-block">
+        <div class="wrapper">
+          <header>
+            
+          </header>
+          <div class="body">
+            <basket_item v-for="basket_item in basket_items" v-bind:buy_data="basket_item"></basket_item>
+          </div>
+          <footer>
+            <a  href="/checkout" class="checkout btn">
+              <em>Итого - <span>{{ total.sum }} ₽</span></em>
+            </a>
+          </footer>
+        </div>
+      </div>
+    </div>
+
   </div>
-</transition>
 </template>
 
 <script>
@@ -147,10 +126,8 @@ export default {
 
 <style lang="scss" scoped>
 
-$color-1: green;
 $color-2: #333;
 $color-3: #fff;
-$color-4: blue;
 $color-5: #e94b35;
 
 @mixin center($xy:xy) {
@@ -234,7 +211,7 @@ Main Components
 
 -------------------------------- */
 
-.cd-cart-container::before {
+.small-basket-container::before {
   /* dark bg layer visible when the cart is open */
   content: '';
   position: fixed;
@@ -249,13 +226,13 @@ Main Components
   transition: opacity .4s, visibility .4s;
 }
 
-.cd-cart-container.cart-open::before {
+.small-basket-container.cart-open::before {
   opacity: 1;
   visibility: visible;
 }
 
-.cd-cart-trigger,
-.cd-cart {
+.small-basket-trigger,
+.small-basket-block {
   position: fixed;
   bottom: 20px;
   right: 5%;
@@ -276,7 +253,7 @@ Main Components
   }
 }
 
-.cd-cart-trigger {
+.small-basket-trigger {
   /* button that triggers the cart content */
   z-index: 3;
   height: 72px;
@@ -304,16 +281,7 @@ Main Components
     transform: translateX(-50%) translateY(-50%) rotate(90deg);
   }
 
-  .cart-open &::before {
-    opacity: 0;
-  }
-
-  .cart-open &::after {
-    opacity: 1;
-    transform: translateX(-50%) translateY(-50%);
-  }
-
-  .count {
+  .small-basket-count {
     /* number of items indicator */
     position: absolute;
     top: -10px;
@@ -332,38 +300,30 @@ Main Components
     font-family: monospace;
     font-size: 19px;  
     
-    #count-cart{
-      list-style: none;
-    }
-    
-    li {
+    >li {
       /* this is the number of items in the cart */
       position: absolute;
       transform: translateZ(0);
+      list-style: none;
       @include center;
-
-      // &:last-of-type {
-      //   visibility: hidden;
-      // }
-    }
-
-    &.update-count li:last-of-type {
-      animation: cd-qty-enter .15s;
-      animation-direction: forwards;
-    }
-
-    &.update-count li:first-of-type {
-      animation: cd-qty-leave .15s;
-      animation-direction: forwards;
     }
   }
 
-  .cart-open & .count {
+  .cart-open &::before {
+    opacity: 0;
+  }
+
+  .cart-open &::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-50%);
+  }  
+
+  .cart-open & .small-basket-count {
     transition: transform .2s 0s;
     transform: scale(0);
   }
 
-  .empty & .count {
+  .empty & .small-basket-count {
     /* fix bug - when cart is empty, do not animate count */
     transform: scale(1);
   }
@@ -377,11 +337,11 @@ Main Components
   }
 }
 
-.cd-cart {
+.small-basket-block {
   /* cart content */
   z-index: 2;
   width: 90%;
-  // max-width: 440px;
+  max-width: 440px;
   height: 400px;
   max-height: 90%;
   pointer-events: none;
@@ -432,37 +392,6 @@ Main Components
     background: $color-3;
   }
 
-  h2 {
-    text-transform: uppercase;
-    display: inline-block;
-    font-size: 1.4rem;
-    font-weight: 700;
-    letter-spacing: .1em;
-  }
-
-  .undo {
-    float: right;
-    font-size: 1.2rem;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity .2s, visibility .2s;
-    color: tint($color-1, 40%);
-
-    a {
-      text-decoration: underline;
-      color: $color-1;
-
-      &:hover {
-        color: $color-2;
-      }
-    }
-
-    &.visible {
-      opacity: 1;
-      visibility: visible;
-    }
-  }
-
   .checkout {
     display: block;
     height: 72px;
@@ -508,169 +437,8 @@ Main Components
     overflow: auto;
     -webkit-overflow-scrolling: touch;
     transition: opacity .2s;
-
-    ul {
-      overflow: hidden;
-      padding: 0 1.4em;
-      position: relative;
-      padding-bottom: 90px;
-    }
-
-    li {
-      position: relative;
-      @include clearfix;
-      opacity: 0;
-      transform: translateX(80px);
-      transition: opacity 0s .2s, transform 0s .2s;
-
-      &:not(:last-of-type) {
-        margin-bottom: 20px;
-      }
-
-      &.deleted {
-        /* this class is added to an item when it is removed form the cart */
-        position: absolute;
-        left: 1.4em;
-        width: calc(100% - 2.8em); 
-        opacity: 0;
-        animation: cd-item-slide-out .3s forwards;
-
-        &.undo-deleted {
-          /* used to reinsert an item deleted from the cart when user clicks 'Undo' */
-          animation: cd-item-slide-in .3s forwards;
-        }
-      }
-
-      &.deleted + li {
-        animation: cd-item-move-up-mobile .3s;
-        animation-fill-mode: forwards;
-      }
-
-      &.undo-deleted + li {
-        animation: cd-item-move-down-mobile .3s;
-        animation-fill-mode: forwards;
-      }
-    }
   }
 
-  .product-image {
-    display: inline-block;
-    float: left;
-    /* the image height determines the height of the list item - in this case height = width */
-    width: 50px;
-
-    img {
-      display: block;
-      max-width: 100%;
-    }
-  }
-
-  .product-details {
-    position: relative;
-    display: inline-block;
-    float: right;
-    width: calc( 100% - 50px);
-    padding: 0.3em 0 0 0.5em;
-    @include clearfix;
-  }
-
-  h3, .price {
-    font-weight: bold;
-  }
-
-  h3 {
-    width: 70%;
-    float: left;
-    /* truncate title with dots if too long */
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-
-    a {
-      color: $color-1;
-
-      &:hover {
-        color: $color-2;
-      }
-    }
-  }
-
-  .price {
-    float: right;
-    width: 30%;
-    text-align: right;
-  }
-
-  .actions {
-    font-size: 1.4rem;
-    height: 1.6em;
-    line-height: 1.6em;
-    @include clearfix;
-  }
-
-  .delete-item, .quantity {
-    float: left;
-    color: tint($color-1, 40%);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-  } 
-
-  .delete-item {
-    margin-right: 1em;
-
-    &:hover {
-      color: $color-5;
-    }
-  }
-
-  .quantity label {
-    display: inline-block;
-    margin-right: .3em;
-  }
-
-  .select {
-    position: relative;
-  }
-
-  .select::after {
-    /* switcher arrow for select element */
-    content: '';
-    position: absolute;
-    z-index: 1;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    display: block;
-    width: 12px;
-    height: 12px;
-    background: url(cd-icon-select.svg) no-repeat center center;
-    pointer-events: none;
-  }
-
-  select {
-    position: relative;
-    padding: 0 1em 0 0;
-    cursor: pointer;
-    appearance: none;
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    font-size: 1.4rem;
-    margin: 0;
-    color: tint($color-1, 40%);
-
-    &:focus {
-      outline: none;
-      color: $color-1;
-      box-shadow: 0 1px 0 currentColor;
-    }
-  }
-
-  select::-ms-expand {
-    /* hide default select arrow on IE */
-        display: none;
-  }
-  
   .cart-open & .wrapper {
     height: 100%;
     width: 100%;
@@ -688,25 +456,6 @@ Main Components
   
   .cart-open & .body {
     transition: opacity 0s;
-    
-    li {
-      transition: transform .3s .2s, opacity .3s .2s;
-      opacity: 1;
-      transform: translateX(0);
-
-      &:nth-of-type(2) {
-        transition-duration: .4s;
-      }
-
-      &:nth-of-type(3) {
-        transition-duration: .5s;
-      }
-
-      &:nth-of-type(4),
-      &:nth-of-type(5) {
-        transition-duration: .55s;
-      }
-    }
   }
 
   .cart-open & .checkout {
@@ -814,82 +563,46 @@ Main Components
 
 
 
-#basket_container {
+#basket-container {
   width: 760px;
   margin: 20px auto;
-  .products {
-    .box {
+}
+
+.products {
+  .box {
+    width: 230px;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    margin: 0 10px;
+    position: relative;
+    img {
       width: 230px;
-      background-color: #fff;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      display: inline-block;
-      margin: 0 10px;
-      position: relative;
-      img {
-        width: 230px;
-      }
-      i {
-        width: 50px;
-        height: 50px;
-        background: #ED277F;
-        color: #ffffff;
-        border-radius: 25px;
-        text-align: center;
-        line-height: 50px;
-        font-size: 1.4rem;
-        position: absolute;
-        right: 20px;
-        top: 150px;
-        box-shadow: 0 0 4px 2px rgba(80, 80, 80, 0.1);
-        cursor: pointer;
-        transition: all 0.3s;
-        &:hover {
-          transform: scale(1.05);
-        }
-      }
-      h2 {
-        margin-left: 20px;
-      }
-      p {
-        margin-left: 20px;
+    }
+    i {
+      width: 50px;
+      height: 50px;
+      background: #ED277F;
+      color: #ffffff;
+      border-radius: 25px;
+      text-align: center;
+      line-height: 50px;
+      font-size: 1.4rem;
+      position: absolute;
+      right: 20px;
+      top: 150px;
+      box-shadow: 0 0 4px 2px rgba(80, 80, 80, 0.1);
+      cursor: pointer;
+      transition: all 0.3s;
+      &:hover {
+        transform: scale(1.05);
       }
     }
-  }
-  .basket {
-    margin-top: 50px;
-    overflow: hidden;
-    .basket__head {
-      width: 100%;
-      border-bottom: 1px solid #BFBFBF;
-      height: 40px;
-      display: block;
-      h3 {
-        display: inline-block;
-        line-height: 40px;
-        margin: 0;
-      }
-      .cart__head--price {
-        display: inline-block;
-        color: #777777;
-        margin-left: 200px;
-        line-height: 40px;
-      }
-      .cart__head--quantity {
-        display: inline-block;
-        color: #777777;
-        margin-left: 100px;
-        line-height: 40px;
-      }
-      .cart__head--total {
-        display: inline-block;
-        color: #777777;
-        line-height: 40px;
-        float: right;
-      }
+    h2 {
+      margin-left: 20px;
     }
-    h5 {
-      font-size: 1.2rem;
-      text-align : right;
+    p {
+      margin-left: 20px;
     }
   }
 }
