@@ -5,7 +5,58 @@
     <title>basket-webpack</title>
   </head>
   <body>
-     <div id="basket-app"></div>
+     <div id="basket-app">
+		<div class="products">
+	      <div id="beer" class="box">
+	          <img src="https://chenyiya.com/codepen/product-1.jpg"> 
+	          <i class="fa fa-plus" v-on:click="addItem({img: 'https://chenyiya.com/codepen/product-1.jpg',title: 'Beer Bottle',price: '25',id: 'beer'})">+</i> 
+	          <h2>Beer Bottle</h2> 
+	          <p>25 р.</p>
+	      </div>
+	      <div id="beer2" class="box">
+	          <img src="https://chenyiya.com/codepen/product-2.jpg"> 
+	          <i class="fa fa-plus" v-on:click="addItem({img: 'https://chenyiya.com/codepen/product-2.jpg',title: 'Beer Bottle2',price: '125',id: 'beer2'})">+</i> 
+	          <h2>Beer Bottle</h2> 
+	          <p>25 р.</p>
+	      </div>
+	      <div id="beer3" class="box">
+	          <img src="https://chenyiya.com/codepen/product-3.jpg"> 
+	          <i class="fa fa-plus" v-on:click="addItem({img: 'https://chenyiya.com/codepen/product-3.jpg',title: 'Beer Bottle3',price: '325',id: 'beer3'})">+</i> 
+	          <h2>Beer Bottle</h2> 
+	          <p>25 р.</p>
+	      </div>                
+	    </div>
+
+	    <div id="basket-container">
+	        <div class="basket-block" v-if="total.count">
+	          <basket_item v-for="basket_item in basket_items" v-bind:buy_data="basket_item"></basket_item>
+	          <h4>Итого: {{total.sum}} р. {{ total.count }} шт</h4>
+	        </div>
+	    </div>
+
+	    <div class="small-basket-container" v-if="total.count" v-bind:class="total.count ? '' : 'empty'">
+	      <a href="#" class="small-basket-trigger" @click.prevent="$event.target.parentElement.classList.toggle('cart-open');">
+	        <ul class="small-basket-count"><li>{{ total.count }}</li></ul>
+	      </a>
+	      <div class="small-basket-block">
+	        <div class="wrapper">
+	          <header>
+	            
+	          </header>
+	          <div class="body">
+	            <basket_item v-for="basket_item in basket_items" v-bind:buy_data="basket_item"></basket_item>
+	          </div>
+	          <footer>
+	            <a  href="/checkout" class="checkout btn">
+	              <em>Итого - <span>{{ total.sum }} ₽</span></em>
+	            </a>
+	          </footer>
+	        </div>
+	      </div>
+	    </div>
+
+
+     </div>
 
     <script src="dist/basket.js"></script>
   </body>
