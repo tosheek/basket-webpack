@@ -29,7 +29,7 @@
 
 	    <div id="basket-container">
 	        <div class="basket-block" v-if="total.count">
-	          <basket_item v-for="basket_item in basket_items" v-bind:buy_data="basket_item"></basket_item>
+	          <basket-item v-for="basket_item in basket_items" v-bind:buy_data="basket_item"></basket-item>
 	          <h4>Итого: {{total.sum}} р. {{ total.count }} шт</h4>
 	        </div>
 	    </div>

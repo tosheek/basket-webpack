@@ -1,6 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
-
+var ExtractTextPlugin = require("extract-text-webpack-plugin")
 module.exports = {
   entry: './src/main.js',
   output: {
@@ -37,6 +37,7 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
+          extractCSS: true,
           loaders: {
             // Since sass-loader (weirdly) has SCSS as its default parse mode, we map
             // the "scss" and "sass" values for the lang attribute to the right configs here.
@@ -69,6 +70,9 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new ExtractTextPlugin("style.css")
+  ],  
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js'

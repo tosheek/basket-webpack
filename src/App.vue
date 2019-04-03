@@ -24,7 +24,7 @@
 
     <div id="basket-container">
         <div class="basket-block" v-if="total.count">
-          <basket_item v-for="basket_item in basket_items" v-bind:buy_data="basket_item"></basket_item>
+          <basket-item v-for="basket_item in basket_items" v-bind:buy_data="basket_item"></basket-item>
           <h4>Итого: {{total.sum}} р. {{ total.count }} шт</h4>
         </div>
     </div>
@@ -39,7 +39,7 @@
             
           </header>
           <div class="body">
-            <basket_item v-for="basket_item in basket_items" v-bind:buy_data="basket_item"></basket_item>
+            <basket-item v-for="basket_item in basket_items" v-bind:buy_data="basket_item"></basket-item>
           </div>
           <footer>
             <a  href="/checkout" class="checkout btn">
@@ -55,7 +55,7 @@
 
 <script>
 
-import basket_item from './basket_item.vue'
+import basket-item from './basket-item.vue'
 
 export default {
   name: 'app',
@@ -65,7 +65,7 @@ export default {
     }
   },
   components:{
-    basket_item:basket_item
+    basket-item:basket_item
   },  
   mounted() {
     if (localStorage.getItem('basket_items')) {

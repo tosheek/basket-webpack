@@ -1,9 +1,10 @@
 import Vue from 'vue'
 // import App from './App.vue'
-import basket_item from './basket_item.vue'
+import basketItem from './basket-item.vue'
 
 
-Vue.component("basket_item", basket_item);
+Vue.component("basket-item", basketItem);
+//Vue.component("small-basket-item", basketItem);
 
 
 var app = new Vue({
