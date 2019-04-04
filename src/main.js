@@ -1,16 +1,19 @@
 import Vue from 'vue'
 // import App from './App.vue'
 import basketItem from './basket-item.vue'
+import smallBasketItem from './small-basket-item.vue'
 
 
 Vue.component("basket-item", basketItem);
-//Vue.component("small-basket-item", basketItem);
+Vue.component("small-basket-item", smallBasketItem);
+
 
 
 var app = new Vue({
-	el: "#basket-app",
+	el: "#products-basket-app",
 	  data: {
-	      basket_items: []
+	      basket_items: [],
+	      open: false,
 	  },
 	  // components:{
 	  //   basket_item:basket_item

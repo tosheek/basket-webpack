@@ -1,131 +1,52 @@
 <template>
-  <div>
-
-    <div class="products">
-      <div id="beer" class="box">
-          <img src="https://chenyiya.com/codepen/product-1.jpg"> 
-          <i class="fa fa-plus" v-on:click="addItem({img: 'https://chenyiya.com/codepen/product-1.jpg',title: 'Beer Bottle',price: '25',id: 'beer'})">+</i> 
-          <h2>Beer Bottle</h2> 
-          <p>25 р.</p>
-      </div>
-      <div id="beer2" class="box">
-          <img src="https://chenyiya.com/codepen/product-2.jpg"> 
-          <i class="fa fa-plus" v-on:click="addItem({img: 'https://chenyiya.com/codepen/product-2.jpg',title: 'Beer Bottle2',price: '125',id: 'beer2'})">+</i> 
-          <h2>Beer Bottle</h2> 
-          <p>25 р.</p>
-      </div>
-      <div id="beer3" class="box">
-          <img src="https://chenyiya.com/codepen/product-3.jpg"> 
-          <i class="fa fa-plus" v-on:click="addItem({img: 'https://chenyiya.com/codepen/product-3.jpg',title: 'Beer Bottle3',price: '325',id: 'beer3'})">+</i> 
-          <h2>Beer Bottle</h2> 
-          <p>25 р.</p>
-      </div>                
-    </div>
-
-    <div id="basket-container">
-        <div class="basket-block" v-if="total.count">
-          <basket-item v-for="basket_item in basket_items" v-bind:buy_data="basket_item"></basket-item>
-          <h4>Итого: {{total.sum}} р. {{ total.count }} шт</h4>
-        </div>
-    </div>
-
-    <div class="small-basket-container" v-if="total.count" v-bind:class="total.count ? '' : 'empty'">
-      <a href="#" class="small-basket-trigger" @click.prevent="$event.target.parentElement.classList.toggle('cart-open');">
-        <ul class="small-basket-count"><li>{{ total.count }}</li></ul>
-      </a>
-      <div class="small-basket-block">
-        <div class="wrapper">
-          <header>
-            
-          </header>
-          <div class="body">
-            <basket-item v-for="basket_item in basket_items" v-bind:buy_data="basket_item"></basket-item>
-          </div>
-          <footer>
-            <a  href="/checkout" class="checkout btn">
-              <em>Итого - <span>{{ total.sum }} ₽</span></em>
-            </a>
-          </footer>
-        </div>
-      </div>
-    </div>
-
+  
+  <div class="basket-row">
+    <img v-bind:src="buy_data.img"/>
+    <h4 class="small-basket-row__item">{{buy_data.title}}</h4>
+    <div class="small-basket-row__item qty-minus" v-on:click="minusQty(buy_data)">-</div>
+    <div class="small-basket-row__item qty">{{buy_data.qty}}</div>
+    <div class="small-basket-row__item qty-plus" v-on:click="plusQty(buy_data)">+</div>
+    <div class="small-basket-row__item totalprice">{{buy_data.total}} р.</div>
+    <div class="small-basket-row__item del" v-on:click="removeItem(buy_data)" title="Удалить">&times;</div>    
   </div>
+
 </template>
 
+
 <script>
-
-import basket-item from './basket-item.vue'
-
-
 export default {
-  name: 'app',
-  data () {
-    return {
-      basket_items: []
-    }
-  },
-  components:{
-    basket-item:basket_item
-  },  
-  mounted() {
-    if (localStorage.getItem('basket_items')) {
-      try {
-        this.basket_items = JSON.parse(localStorage.getItem('basket_items'));
-      } catch(e) {
-        localStorage.removeItem('basket_items');
-      }
-    }
-  },
-  computed: {
-    total(){
-      let sum = 0;
-      let count = 0;
-      this.basket_items.forEach((basket_item) => {
-          sum += parseInt(basket_item.total);
-          count += parseInt(basket_item.qty);
-      });
-      return {sum,count};
-    }
-
-  }, 
+  props: ["buy_data", "basket_items"],
   methods: {
-   addItem(product_data) {
-      var i = this.findIndex(this.basket_items, "id", product_data.id);
-      if (i < 0) {
-        this.basket_items.push({
-          img: product_data.img,
-          title: product_data.title,
-          price: product_data.price,
-          qty: 1,
-          total: product_data.price,
-          id: product_data.id
-        });
-      }else{
-        this.basket_items[i].qty += 1;
-        this.basket_items[i].total =this.basket_items[i].qty*this.basket_items[i].price;
-      }
-      this.save();
+    removeItem(buy_data) {
+      var index = this.$parent.basket_items.indexOf(buy_data);
+      this.$parent.basket_items.splice(index, 1);
+      
+      this.$parent.save();
     },
-    findIndex(array, attr, value) {
-      for (var i = 0; i < array.length; i += 1) {
-        if (array[i][attr] === value) {
-          return i;
-        }
+    plusQty(buy_data){
+      buy_data.qty += 1;
+      buy_data.total = buy_data.qty*buy_data.price;
+     
+      this.$parent.save();
+    },
+    minusQty(buy_data){
+      buy_data.qty -= 1;
+      if (buy_data.qty < 0){
+        buy_data.qty = 0;
       }
-      return -1;
-    },    
-    save() {
-      const parsed = JSON.stringify(this.basket_items);
-      localStorage.setItem('basket_items', parsed);
+      buy_data.total = buy_data.qty*buy_data.price;
+
+      if (buy_data.qty == 0) 
+        this.removeItem(buy_data);
+
+      this.$parent.save();
     }
+    
   }
-
-
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 $color-2: #333;
 $color-3: #fff;
@@ -150,6 +71,7 @@ $color-5: #e94b35;
     transform: translateY(-50%);
   }
 }
+
 $S:     480px;   
 $M:     768px;     
 $L:     1170px;     
@@ -167,6 +89,61 @@ $L:     1170px;
    @media only screen and (min-width: $L) { @content; } 
   }
 }
+
+#basket-container {
+  width: 760px;
+  margin: 20px auto;
+}
+
+.basket-block, 
+.small-basket-container .small-basket-block .body {
+  .small-basket-row  {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+
+    &:last-child{
+      padding-bottom: 50px;
+      border-bottom: 0;
+    }
+    img {
+      height: 25px;
+      float: left;
+      @include MQ(M) {
+        height: 50px;
+      }      
+      @include MQ(L) {
+        height: 100px;
+      }      
+    }
+    .basket-row__item{
+      flex: 1;
+      text-align: center;
+    }
+    .basket-row__item.qty{
+      flex: 0;  
+    }
+
+    h4.basket-row__item {
+      flex: 2;
+      margin: 0;
+      margin-left: 20px;
+    }
+
+    .qty-minus,
+    .qty-plus,
+    .del {
+      cursor: pointer;
+    }
+    .del {
+      color: $color-5;
+    }
+  }
+}
+
 
 // super light grid system
 
@@ -204,33 +181,55 @@ html{font-family: roboto, sans-serif;}
   &:active {
     transform: scale(.9);
   }
-}
+}  
+
 
 /* -------------------------------- 
 
 Main Components 
 
 -------------------------------- */
-
-.small-basket-container::before {
-  /* dark bg layer visible when the cart is open */
-  content: '';
-  position: fixed;
+.small-basket-container{
   z-index: 1;
-  height: 100vh;
-  width: 100vw;
-  top: 0;
-  left: 0;
-  background: rgba(#000, .5);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .4s, visibility .4s;
+    .small-basket-overlay{
+      z-index: 0;
+        /* dark bg layer visible when the cart is open */
+      position: fixed;
+      z-index: 1;
+      height: 100vh;
+      width: 100vw;
+      top: 0;
+      left: 0;
+      background: rgba(#000, .5);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .4s, visibility .4s;
+    }
+    &.cart-open .small-basket-overlay{
+      opacity: 1;
+      visibility: visible;  
+    }  
 }
 
-.small-basket-container.cart-open::before {
-  opacity: 1;
-  visibility: visible;
-}
+// .small-basket-container::before {
+//   /* dark bg layer visible when the cart is open */
+//   content: '';
+//   position: fixed;
+//   z-index: 1;
+//   height: 100vh;
+//   width: 100vw;
+//   top: 0;
+//   left: 0;
+//   background: rgba(#000, .5);
+//   opacity: 0;
+//   visibility: hidden;
+//   transition: opacity .4s, visibility .4s;
+// }
+
+// .small-basket-container.cart-open::before {
+//   opacity: 1;
+//   visibility: visible;
+// }
 
 .small-basket-trigger,
 .small-basket-block {
@@ -478,96 +477,89 @@ Main Components
   }
 }
 
-@keyframes cd-qty-enter {
-    0% {
-        opacity: 0;
-        visibility: hidden;
-        transform: translateX(-50%) translateY(0);
-    }
-    100% {
-        opacity: 1;
-        visibility: visible;
-        transform: translateX(-50%) translateY(-50%);
-    }
-}
+// @keyframes cd-qty-enter {
+//     0% {
+//         opacity: 0;
+//         visibility: hidden;
+//         transform: translateX(-50%) translateY(0);
+//     }
+//     100% {
+//         opacity: 1;
+//         visibility: visible;
+//         transform: translateX(-50%) translateY(-50%);
+//     }
+// }
 
-@keyframes cd-qty-leave {
-    0% {
-        opacity: 1;
-        visibility: visible;
-        transform: translateX(-50%) translateY(-50%);
-    }
-    100% {
-        opacity: 0;
-        visibility: hidden;
-        transform: translateX(-50%) translateY(-100%);
-    }
-}
+// @keyframes cd-qty-leave {
+//     0% {
+//         opacity: 1;
+//         visibility: visible;
+//         transform: translateX(-50%) translateY(-50%);
+//     }
+//     100% {
+//         opacity: 0;
+//         visibility: hidden;
+//         transform: translateX(-50%) translateY(-100%);
+//     }
+// }
 
-@keyframes cd-item-move-up-mobile {
-    0% {
-        padding-top: 70px;
-    }
-    100% {
-        padding-top: 0px;
-    }
-}
+// @keyframes cd-item-move-up-mobile {
+//     0% {
+//         padding-top: 70px;
+//     }
+//     100% {
+//         padding-top: 0px;
+//     }
+// }
 
-@keyframes cd-item-move-up {
-    0% {
-        padding-top: 104px;
-    }
-    100% {
-        padding-top: 0px;
-    }
-}
+// @keyframes cd-item-move-up {
+//     0% {
+//         padding-top: 104px;
+//     }
+//     100% {
+//         padding-top: 0px;
+//     }
+// }
 
-@keyframes cd-item-move-down-mobile {
-    0% {
-        padding-top: 0px;
-    }
-    100% {
-        padding-top: 70px;
-    }
-}
+// @keyframes cd-item-move-down-mobile {
+//     0% {
+//         padding-top: 0px;
+//     }
+//     100% {
+//         padding-top: 70px;
+//     }
+// }
 
-@keyframes cd-item-move-down {
-    0% {
-        padding-top: 0px;
-    }
-    100% {
-        padding-top: 104px;
-    }
-}
+// @keyframes cd-item-move-down {
+//     0% {
+//         padding-top: 0px;
+//     }
+//     100% {
+//         padding-top: 104px;
+//     }
+// }
 
-@keyframes cd-item-slide-out {
-    0% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-     100% {
-        transform: translateX(80px);
-        opacity: 0;
-    }
-}
+// @keyframes cd-item-slide-out {
+//     0% {
+//         transform: translateX(0);
+//         opacity: 1;
+//     }
+//      100% {
+//         transform: translateX(80px);
+//         opacity: 0;
+//     }
+// }
 
-@keyframes cd-item-slide-in {
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    0% {
-        transform: translateX(80px);
-        opacity: 0;
-    }
-}
-
-
-
-#basket-container {
-  width: 760px;
-  margin: 20px auto;
-}
+// @keyframes cd-item-slide-in {
+//     100% {
+//         transform: translateX(0);
+//         opacity: 1;
+//     }
+//     0% {
+//         transform: translateX(80px);
+//         opacity: 0;
+//     }
+// }
 
 .products {
   .box {

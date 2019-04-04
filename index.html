@@ -5,7 +5,7 @@
     <title>basket-webpack</title>
   </head>
   <body>
-     <div id="basket-app">
+     <div id="products-basket-app">
 		<div class="products">
 	      <div id="beer" class="box">
 	          <img src="https://chenyiya.com/codepen/product-1.jpg"> 
@@ -29,13 +29,14 @@
 
 	    <div id="basket-container">
 	        <div class="basket-block" v-if="total.count">
-	          <basket-item v-for="basket_item in basket_items" v-bind:buy_data="basket_item"></basket-item>
+	          <basket-item v-for="(basket_item, i) in basket_items" v-bind:buy_data="basket_item"></basket-item>
 	          <h4>Итого: {{total.sum}} р. {{ total.count }} шт</h4>
 	        </div>
 	    </div>
 
-	    <div class="small-basket-container" v-if="total.count" v-bind:class="total.count ? '' : 'empty'">
-	      <a href="#" class="small-basket-trigger" @click.prevent="$event.target.parentElement.classList.toggle('cart-open');">
+	    <div class="small-basket-container" v-bind:class="[total.count ? '' : 'empty', {'cart-open':open && total.count}]">
+	    	<div class="small-basket-overlay" @click.prevent="open = !open"></div>
+	      <a href="#" class="small-basket-trigger" @click.prevent="open = !open">
 	        <ul class="small-basket-count"><li>{{ total.count }}</li></ul>
 	      </a>
 	      <div class="small-basket-block">
@@ -44,10 +45,10 @@
 	            
 	          </header>
 	          <div class="body">
-	            <basket_item v-for="basket_item in basket_items" v-bind:buy_data="basket_item"></basket_item>
+	            <small-basket-item v-for="(basket_item, i) in basket_items" v-bind:buy_data="basket_item"></small-basket-item>
 	          </div>
 	          <footer>
-	            <a  href="/checkout" class="checkout btn">
+	            <a href="#checkout" class="checkout" @click="open = !open">
 	              <em>Итого - <span>{{ total.sum }} ₽</span></em>
 	            </a>
 	          </footer>
@@ -58,6 +59,6 @@
 
      </div>
 
-    <script src="dist/basket.js"></script>
+    <script src="dist/script.js"></script>
   </body>
 </html>
