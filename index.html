@@ -5,32 +5,42 @@
     <title>basket-webpack</title>
   </head>
   <body>
+  	<style>
+  		.empty{
+  			opacity: 0;
+  		}
+  	</style>
      <div id="products-basket-app">
 		<div class="products">
 	      <div id="beer" class="box">
 	          <img src="https://chenyiya.com/codepen/product-1.jpg"> 
 	          <i class="fa fa-plus" v-on:click="addItem({img: 'https://chenyiya.com/codepen/product-1.jpg',title: 'Beer Bottle',price: '25',id: 'beer'})">+</i> 
 	          <h2>Beer Bottle</h2> 
-	          <p>25 р.</p>
+	          <p>25 ₽</p>
 	      </div>
 	      <div id="beer2" class="box">
 	          <img src="https://chenyiya.com/codepen/product-2.jpg"> 
 	          <i class="fa fa-plus" v-on:click="addItem({img: 'https://chenyiya.com/codepen/product-2.jpg',title: 'Beer Bottle2',price: '125',id: 'beer2'})">+</i> 
 	          <h2>Beer Bottle</h2> 
-	          <p>25 р.</p>
+	          <p>25 ₽</p>
 	      </div>
 	      <div id="beer3" class="box">
 	          <img src="https://chenyiya.com/codepen/product-3.jpg"> 
 	          <i class="fa fa-plus" v-on:click="addItem({img: 'https://chenyiya.com/codepen/product-3.jpg',title: 'Beer Bottle3',price: '325',id: 'beer3'})">+</i> 
 	          <h2>Beer Bottle</h2> 
-	          <p>25 р.</p>
+	          <p>25 ₽</p>
 	      </div>                
 	    </div>
 
 	    <div id="basket-container">
+	    	
+		    <!-- <input type="hidden" name="FIELDS[PRODUCTS][]" v-for="item in basket_items" v-bind:value="item.id"/>
+		    <input type="text" name="FIELDS[PRODUCTS][]" v-for="item in basket_items" v-bind:value="item.qty"/> -->
+		    
+	    	
 	        <div class="basket-block" v-if="total.count">
 	          <basket-item v-for="(basket_item, i) in basket_items" v-bind:buy_data="basket_item"></basket-item>
-	          <h4>Итого: {{total.sum}} р. {{ total.count }} шт</h4>
+	          <h4 class="basket-block__total">Итого: {{total.sum}} ₽</h4>
 	        </div>
 	    </div>
 

@@ -6,8 +6,8 @@
     <div class="basket-row__item qty-minus" v-on:click="minusQty(buy_data)">-</div>
     <div class="basket-row__item qty">{{buy_data.qty}}</div>
     <div class="basket-row__item qty-plus" v-on:click="plusQty(buy_data)">+</div>
-    <div class="basket-row__item totalprice">{{buy_data.total}} р.</div>
-    <div class="basket-row__item del" v-on:click="removeItem(buy_data)" title="Удалить">&times;</div>    
+    <div class="basket-row__item del" v-on:click="removeItem(buy_data)" title="Удалить">&times;</div>
+    <div class="basket-row__item totalprice">{{buy_data.total}} ₽</div>
   </div>
 
 </template>
@@ -91,63 +91,69 @@ $L:     1170px;
 }
 
 #basket-container {
-  width: 760px;
+  max-width: 760px;
   margin: 20px auto;
 }
-.basket-block{
+
+.basket-block {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    height: 100vh;  
-}
-.basket-block, 
-.small-basket-container .small-basket-block .body {
-  .basket-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 10px 0;
-    border-bottom: 1px solid #ccc;
+    justify-content: flex-start;
 
-    &:last-child{
-      padding-bottom: 50px;
-      border-bottom: 0;
-    }
-    img {
-      height: 25px;
-      float: left;
-      @include MQ(M) {
-        height: 50px;
-      }      
-      @include MQ(L) {
-        height: 100px;
-      }      
-    }
-    .basket-row__item{
-      flex: 1;
-      text-align: center;
-    }
-    .basket-row__item.qty{
-      flex: 0;  
+    .basket-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 10px 0;
+        border-bottom: 1px solid #ccc;
+        &:first-child{
+            border-top: 1px solid #ccc;
+            }
+        &:last-child{
+            padding-bottom: 50px;
+            border-bottom: 0;
+        }
+        img {
+            height: 30px;
+            float: left;
+            @include MQ(M) {
+              height: 50px;
+            }      
+            @include MQ(L) {
+              height: 100px;
+            }      
+        }
+        .basket-row__item{
+            flex: 1;
+            text-align: center;
+        }
+        .basket-row__item.qty{
+            flex: 0;  
+        }
+
+        h4.basket-row__item {
+            flex: 2;
+            margin: 0;
+            margin-left: 20px;
+            text-align: left;      
+        }
+
+        .qty-minus,
+        .qty-plus,
+        .del {
+            cursor: pointer;
+        }
+        .del {
+            color: $color-5;
+        }
+      
     }
 
-    h4.basket-row__item {
-      flex: 2;
-      margin: 0;
-      margin-left: 20px;
+    .basket-block__total{
+        text-align: right;
     }
 
-    .qty-minus,
-    .qty-plus,
-    .del {
-      cursor: pointer;
-    }
-    .del {
-      color: $color-5;
-    }
-    
-  }
 }
 
 .products {

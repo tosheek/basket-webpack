@@ -55,6 +55,7 @@ var app = new Vue({
 	        this.basket_items[i].qty += 1;
 	        this.basket_items[i].total =this.basket_items[i].qty*this.basket_items[i].price;
 	      }
+	      this.open = true;
 	      this.save();
 	    },
 	    findIndex(array, attr, value) {
