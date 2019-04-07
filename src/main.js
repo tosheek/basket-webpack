@@ -2,10 +2,11 @@ import Vue from 'vue'
 // import App from './App.vue'
 import basketItem from './basket-item.vue'
 import smallBasketItem from './small-basket-item.vue'
-
+import checkoutBasketItem from './checkout-basket-item.vue'
 
 Vue.component("basket-item", basketItem);
 Vue.component("small-basket-item", smallBasketItem);
+Vue.component("checkout-basket-item", checkoutBasketItem);
 
 
 

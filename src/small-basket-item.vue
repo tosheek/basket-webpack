@@ -18,6 +18,8 @@ export default {
   props: ["buy_data", "basket_items"],
   methods: {
     removeItem(buy_data) {
+      ym(this.$parent.ymId, 'reachGoal', 'remove_from_cart');
+      
       var index = this.$parent.basket_items.indexOf(buy_data);
       this.$parent.basket_items.splice(index, 1);
       
@@ -99,10 +101,7 @@ $L:     1170px;
         padding: 10px 0;
         border-bottom: 1px solid #ccc;
 
-        &:last-child{
-            padding-bottom: 50px;
-            border-bottom: 0;
-        }
+
         img {
             height: 30px;
             float: left;
@@ -135,6 +134,12 @@ $L:     1170px;
         .del {
             color: $color-5;
         }
+    }
+    .small-basket-total{
+        text-align: right;
+        padding: 10px 40px 150px;
+        font-size: 20px;
+        font-weight: 600;
     }
 }
 
@@ -184,12 +189,11 @@ Main Components
 
 -------------------------------- */
 .small-basket-container{
-  z-index: 1;
+  z-index: 6;
     .small-basket-overlay{
-      z-index: 0;
+      z-index: 5;
         /* dark bg layer visible when the cart is open */
       position: fixed;
-      z-index: 1;
       height: 100vh;
       width: 100vw;
       top: 0;
@@ -249,7 +253,7 @@ Main Components
 
 .small-basket-trigger {
   /* button that triggers the cart content */
-  z-index: 3;
+  z-index: 8;
   height: 72px;
   width: 72px;
   /* replace text with image */
@@ -333,7 +337,7 @@ Main Components
 
 .small-basket-block {
   /* cart content */
-  z-index: 2;
+  z-index: 7;
   width: 90%;
   max-width: 440px;
   height: 400px;
@@ -344,7 +348,7 @@ Main Components
     position: absolute;
     bottom: 0;
     right: 0;
-    z-index: 2;
+    z-index: 7;
     overflow: hidden;
     height: 72px;
     width: 72px;
@@ -358,7 +362,7 @@ Main Components
 
   header, footer {
     position: absolute;
-    z-index: 2;
+    z-index: 7;
     left: 0;
     width: 100%;
   }
@@ -424,7 +428,7 @@ Main Components
 
   .body {
     position: relative;
-    z-index: 1;
+    z-index: 6;
     height: calc(100% - 40px);
     padding: 0px 0 0px;
     margin: 8px 8px 80px;

@@ -38,7 +38,7 @@
 		    <input type="text" name="FIELDS[PRODUCTS][]" v-for="item in basket_items" v-bind:value="item.qty"/> -->
 		    
 	    	
-	        <div class="basket-block" v-if="total.count">
+	        <div class="basket-block" 	>
 	          <basket-item v-for="(basket_item, i) in basket_items" v-bind:buy_data="basket_item"></basket-item>
 	          <h4 class="basket-block__total">Итого: {{total.sum}} ₽</h4>
 	        </div>
@@ -56,10 +56,11 @@
 	          </header>
 	          <div class="body">
 	            <small-basket-item v-for="(basket_item, i) in basket_items" v-bind:buy_data="basket_item"></small-basket-item>
+	            <div class="small-basket-total">Итого - <span>{{ total.sum }} ₽</span></div>
 	          </div>
 	          <footer>
 	            <a href="#checkout" class="checkout" @click="open = !open">
-	              <em>Итого - <span>{{ total.sum }} ₽</span></em>
+	              <em>Оформить</em>
 	            </a>
 	          </footer>
 	        </div>
