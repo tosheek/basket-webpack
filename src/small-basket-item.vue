@@ -18,8 +18,6 @@ export default {
   props: ["buy_data", "basket_items"],
   methods: {
     removeItem(buy_data) {
-      ym(this.$parent.ymId, 'reachGoal', 'remove_from_cart');
-      
       var index = this.$parent.basket_items.indexOf(buy_data);
       this.$parent.basket_items.splice(index, 1);
       
@@ -269,7 +267,7 @@ Main Components
     height: 100%;
     width: 100%;
     background: url(cd-icons-cart-close.svg) no-repeat 0 0;
-    transition: opacity .2s, transform .2s;
+    transition: opacity .1s, transform .2s;
   }
 
   &::after {
@@ -353,8 +351,8 @@ Main Components
     height: 72px;
     width: 72px;
     border-radius: 6px;
-    transition: height .4s .1s, width  .4s .1s, box-shadow .3s;
-    transition-timing-function: cubic-bezier(.67,.17,.32,.95);
+    transition: height .1s .0s, width  .1s .0s, box-shadow .1s;
+    // transition-timing-function: cubic-bezier(.67,.17,.32,.95);
     background: $color-3;
     box-shadow: 0 4px 30px rgba(#000, .17);
     pointer-events: auto;
