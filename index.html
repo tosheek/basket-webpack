@@ -46,7 +46,7 @@
 
 	    <div class="small-basket-container" v-bind:class="[total.count ? '' : 'empty', {'cart-open':open && total.count}]">
 	    	<div class="small-basket-overlay" @click.prevent="open = !open"></div>
-	      <a href="#" class="small-basket-trigger" @click.prevent="open = !open">
+	      <a href="#" class="small-basket-trigger" @click.prevent="open = !open; if(open) ymCustom('view_cart');">
 	        <ul class="small-basket-count"><li>{{ total.count }}</li></ul>
 	      </a>
 	      <div class="small-basket-block">
@@ -59,7 +59,7 @@
 	            <div class="small-basket-total">Итого - <span>{{ total.sum }} ₽</span></div>
 	          </div>
 	          <footer>
-	            <a href="#checkout" class="checkout" @click="open = !open">
+	            <a href="/checkout/" target="_popup" @click="ymCustom('begin_checkout');" class="checkout">
 	              <em>Оформить</em>
 	            </a>
 	          </footer>

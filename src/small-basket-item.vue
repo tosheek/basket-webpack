@@ -18,6 +18,8 @@ export default {
   props: ["buy_data", "basket_items"],
   methods: {
     removeItem(buy_data) {
+      this.$parent.ymCustom('remove_from_cart');
+
       var index = this.$parent.basket_items.indexOf(buy_data);
       this.$parent.basket_items.splice(index, 1);
       

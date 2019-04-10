@@ -2,7 +2,9 @@
   
   <div class="basket-row">
     <img v-bind:src="buy_data.img"/>
-    <h4 class="basket-row__item">{{buy_data.title}} {{buy_data.qty}}шт. за {{buy_data.total}} ₽</h4>
+    <h4 class="basket-row__item">{{buy_data.title}}</h4>
+    <div class="basket-row__item qty">{{buy_data.qty}} шт.</div>
+    <div class="basket-row__item totalprice">{{buy_data.total}} ₽</div>
   </div>
 
 </template>
@@ -11,8 +13,7 @@
 <script>
 export default {
   props: ["buy_data", "basket_items"],
-  methods: {    
-  }
+  methods: {}
 }
 </script>
 
@@ -61,27 +62,32 @@ $L:     1170px;
 }
 
 #basket-container {
-  max-width: 760px;
+  // max-width: 760px;
   margin: 20px auto;
 }
 
 .basket-block {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;    
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: flex-start;
 
     .basket-row {
         display: flex;
-        flex-direction: column;
+        justify-content: space-between;
         align-items: center;
+        width: 100%;
         padding: 10px 0;
-        
-
+        border-bottom: 1px solid #ccc;
+        &:first-child{
+            border-top: 1px solid #ccc;
+            }
+        &:last-child{
+            padding-bottom: 50px;
+            border-bottom: 0;
+        }
         img {
-            height: 100px;
-            text-align: center;
-            margin: 5px;
+            height: 30px;
+            float: left;
             @include MQ(M) {
               height: 50px;
             }      
@@ -93,10 +99,15 @@ $L:     1170px;
             flex: 1;
             text-align: center;
         }
+        .basket-row__item.qty{
+            flex: 1;  
+        }
+
         h4.basket-row__item {
-            flex: 2;
+            flex: 3;
             margin: 0;
-            text-align: center;    
+            margin-left: 20px;
+            text-align: left;      
         }
     }
 

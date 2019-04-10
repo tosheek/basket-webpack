@@ -6,7 +6,7 @@
     <div class="basket-row__item qty-minus" v-on:click="minusQty(buy_data)">-</div>
     <div class="basket-row__item qty">{{buy_data.qty}}</div>
     <div class="basket-row__item qty-plus" v-on:click="plusQty(buy_data)">+</div>
-    <div class="basket-row__item del" v-on:click="removeItem(buy_data)" title="Удалить">&times;</div>
+    <div class="basket-row__item del" v-on:click="removeItem(buy_data);" title="Удалить">&times;</div>
     <div class="basket-row__item totalprice">{{buy_data.total}} ₽</div>
   </div>
 
@@ -18,6 +18,8 @@ export default {
   props: ["buy_data", "basket_items"],
   methods: {
     removeItem(buy_data) {
+      this.$parent.ymCustom('remove_from_cart');
+
       var index = this.$parent.basket_items.indexOf(buy_data);
       this.$parent.basket_items.splice(index, 1);
       
@@ -91,7 +93,7 @@ $L:     1170px;
 }
 
 #basket-container {
-  max-width: 760px;
+  // max-width: 760px;
   margin: 20px auto;
 }
 
@@ -143,6 +145,7 @@ $L:     1170px;
         .qty-plus,
         .del {
             cursor: pointer;
+            font-size: 2rem;
         }
         .del {
             color: $color-5;

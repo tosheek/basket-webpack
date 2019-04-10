@@ -41,7 +41,15 @@ var app = new Vue({
 
 	  }, 
 	  methods: {
+	  	ymCustom(eventId){
+	  		ym(this.getYmCounter(), 'reachGoal', eventId);	
+	  	},
+	  	getYmCounter() {
+  			const cntrs = (typeof window.Ya !== 'undefined') && window.Ya._metrika.getCounters(); 
+  			return (cntrs && cntrs[0] && cntrs[0].id) || null; 
+			},
 	   addItem(product_data) {
+	   		this.ymCustom('add_to_cart');
 	      var i = this.findIndex(this.basket_items, "id", product_data.id);
 	      if (i < 0) {
 	        this.basket_items.push({
